@@ -1,8 +1,8 @@
-# Restaurant Chooser 🍽️
+# Restaurant Chooser 
 
 Tired of endless "Where to eat?" debates? Restaurant Chooser is your democratic solution for group dining decisions!
 
-## Prerequisites 📋
+## Prerequisites 
 
 - Node.js v18+
 - npm (v9+) or yarn (v1.22+)
@@ -13,7 +13,7 @@ Tired of endless "Where to eat?" debates? Restaurant Chooser is your democratic 
 npm install -g expo-cli  # Install Expo CLI globally
 ```
 
-## Installation & Setup ⚙️
+## Installation & Setup 
 1. Clone the repository
 ```bash
 git clone (https://github.com/Kirito200207/RestaurantChooser)
@@ -24,7 +24,7 @@ cd RestaurantChooser
 npm install
 ```
 
-## Running the App ▶️
+## Running the App 
 Development Mode
 ```bash
 npx expo start
