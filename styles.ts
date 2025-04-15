@@ -25,5 +25,21 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 40,
     color: '#999'
-  }
+  },
+  filterButton: {
+    marginHorizontal: 8,
+    marginVertical: 4,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  filterContainer: {
+    padding: 8,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
 });

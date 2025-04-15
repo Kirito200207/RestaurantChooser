@@ -14,28 +14,23 @@ export const AppNavigator = () => {
         gestureEnabled: true,
       }}
     >
-      {/* 主标签页导航（全屏模式） */}
       <Stack.Screen
         name="MainTabs"
         component={TabsNavigator}
         options={{
           animationTypeForReplace: 'pop',
-          statusBarColor: '#6200ea', // Android状态栏颜色
+          statusBarColor: '#6200ea',
           statusBarTranslucent: false,
         }}
       />
 
-      {/* 添加餐厅页（模态框样式） */}
       <Stack.Screen
         name="AddScreen"
         component={AddScreen}
         options={{
           presentation: 'modal',
           animation: 'slide_from_bottom',
-          gestureEnabled: true,
-          cardOverlayEnabled: true,
-          cardStyle: { backgroundColor: 'transparent' },
-          headerShown: true, // 显示模态框标题栏
+          headerShown: true,
           headerTitle: 'Add Restaurant',
           headerStyle: {
             backgroundColor: '#6200ea',

@@ -1,78 +1,82 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import React from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    marginVertical: 8, 
-  },
-  label: {
-    marginLeft: 10,
-    marginBottom: 4,
-    fontSize: 16,
-    color: "#333",
-  },
-  input: {
-    height: 40,
-    width: "96%",
-    marginLeft: "2%", 
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    ...Platform.select({
-      ios: {
-        borderWidth: 1,
-        borderColor: "#c0c0c0",
-        borderRadius: 8,
-      },
-      android: {
-        borderBottomWidth: 1,
-        borderColor: "#c0c0c0",
-      },
-    }),
-  },
-});
-
-class CustomTextInput extends Component {
-  render() {
-    const {
-      label,
-      labelStyle,
-      maxLength = 50,
-      textInputStyle,
-      value,
-      onChangeText,
-      placeholder,
-    } = this.props;
-
-    return (
-      <View style={styles.container}>
-        {/* 输入框标签 */}
-        <Text style={[styles.label, labelStyle]}>{label}</Text>
-        {/* 文本输入框 */}
-        <TextInput
-          style={[styles.input, textInputStyle]}
-          maxLength={maxLength}
-          onChangeText={onChangeText}
-          value={value}
-          placeholder={placeholder}
-          placeholderTextColor="#999"
-        />
-      </View>
-    );
-  }
-}
-
+const CustomTextInput = ({
+  label,
+  labelStyle,
+  maxLength,
+  textInputStyle,
+  value,
+  onChangeText,
+  error,
+  placeholder,
+  keyboardType,
+  ...props
+}) => {
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.fieldLabel, labelStyle]}>{label}</Text>
+      <TextInput
+        value={value}
+        maxLength={maxLength}
+        onChangeText={onChangeText}
+        style={[
+          styles.textInput,
+          textInputStyle,
+          error ? styles.errorInput : {}
+        ]}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        {...props}
+      />
+      {error && (
+        <Text style={styles.errorText}>{error}</Text>
+      )}
+    </View>
+  );
+};
 
 CustomTextInput.propTypes = {
   label: PropTypes.string.isRequired,
-  labelStyle: PropTypes.object, 
-  maxLength: PropTypes.number, 
-  textInputStyle: PropTypes.object, 
-  value: PropTypes.string.isRequired, 
-  onChangeText: PropTypes.func.isRequired, 
-  placeholder: PropTypes.string, 
+  labelStyle: PropTypes.object,
+  maxLength: PropTypes.number,
+  textInputStyle: PropTypes.object,
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  error: PropTypes.string,
+  placeholder: PropTypes.string,
+  keyboardType: PropTypes.string
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 15,
+    paddingHorizontal: 10,
+  },
+  fieldLabel: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
+  textInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
+  errorInput: {
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+    marginLeft: 5,
+  }
+});
 
 export default CustomTextInput;

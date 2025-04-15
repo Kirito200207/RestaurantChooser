@@ -9,12 +9,12 @@ class CustomButton extends Component {
       onPress,
       buttonStyle,
       textStyle,
-      width = "100%", 
+      width = "100%",
       disabled = false,
     } = this.props;
 
-    const backgroundColor = disabled ? "#CCCCCC" : "#007AFF"; 
-    const handlePress = disabled ? () => {} : onPress; 
+    const backgroundColor = disabled ? "#CCCCCC" : "#6200ea"; // 改为紫色主题色
+    const handlePress = disabled ? () => {} : onPress;
 
     return (
       <TouchableOpacity
@@ -22,7 +22,7 @@ class CustomButton extends Component {
         style={[
           styles.button,
           { width, backgroundColor },
-          buttonStyle, 
+          buttonStyle,
         ]}
         disabled={disabled}
       >

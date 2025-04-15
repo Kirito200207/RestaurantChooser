@@ -6,9 +6,55 @@ import CustomButton from '../components/CustomButton';
 
 const PeopleScreen = () => {
   const [people, setPeople] = useState([]);
-  const [newPerson, setNewPerson] = useState('');
+  const [newPersonName, setNewPersonName] = useState('');
+  const [errors, setErrors] = useState({});
 
-  
+  // Add name validation function
+  const validateName = (name) => {
+    if (!name.trim()) {
+      return "Name is required";
+    }
+    if (name.length < 2) {
+      return "Name must be at least 2 characters";
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      return "Name can only contain letters, spaces, hyphens and apostrophes";
+    }
+    return null;
+  };
+
+  // Add input change handler
+  const handleNameChange = (text) => {
+    setNewPersonName(text);
+    
+    // 添加实时名称验证
+    const nameError = validateName(text);
+    setErrors(prev => ({
+      ...prev,
+      name: nameError
+    }));
+  };
+
+  const addPerson = () => {
+    // Validate name before adding
+    const nameError = validateName(newPersonName);
+    if (nameError) {
+      setErrors({ name: nameError });
+      Alert.alert('Validation Error', nameError);
+      return;
+    }
+
+    const newPerson = {
+      id: Date.now().toString(),
+      name: newPersonName.trim()
+    };
+    const updatedPeople = [...people, newPerson];
+    setPeople(updatedPeople);
+    savePeople(updatedPeople);
+    setNewPersonName('');
+    setErrors({});
+  };
+
   useEffect(() => {
     loadPeople();
   }, []);
@@ -30,20 +76,8 @@ const PeopleScreen = () => {
     }
   };
 
-  const addPerson = () => {
-    if (!newPerson.trim()) {
-      Alert.alert('Validation Error', 'Name cannot be empty!');
-      return;
-    }
-
-    const updatedPeople = [...people, newPerson.trim()];
-    setPeople(updatedPeople);
-    savePeople(updatedPeople);
-    setNewPerson('');
-  };
-
-  const removePerson = (index) => {
-    const updatedPeople = people.filter((_, i) => i !== index);
+  const removePerson = (personId) => {
+    const updatedPeople = people.filter(person => person.id !== personId);
     setPeople(updatedPeople);
     savePeople(updatedPeople);
   };
@@ -52,32 +86,39 @@ const PeopleScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>People Management</Text>
 
-      {/* Input Section */}
       <CustomTextInput
-        label="Full Name"
-        placeholder="John Doe"
-        value={newPerson}
-        onChangeText={setNewPerson}
+        label="Full Name *"
+        placeholder="Enter full name"
+        value={newPersonName}
+        onChangeText={handleNameChange}
         maxLength={30}
+        error={errors.name}
+        onBlur={() => {
+          const nameError = validateName(newPersonName);
+          setErrors(prev => ({
+            ...prev,
+            name: nameError
+          }));
+        }}
       />
 
       <CustomButton
         text="Add Person"
         onPress={addPerson}
         width="90%"
-        disabled={!newPerson.trim()}
+        disabled={!newPersonName.trim()}
       />
 
       {/* People List */}
       <FlatList
         data={people}
-        keyExtractor={(_, index) => `person-${index}`}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Text style={styles.personName}>{item}</Text>
+            <Text style={styles.personName}>{item.name}</Text>
             <TouchableOpacity
-              onPress={() => removePerson(index)}
+              onPress={() => removePerson(item.id)}
               style={styles.deleteButton}
             >
               <Text style={styles.deleteText}>Remove</Text>

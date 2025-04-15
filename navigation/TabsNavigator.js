@@ -20,6 +20,10 @@ export default function TabsNavigator() {
         getComponent={() => require('../screens/RestaurantsScreen').default}
       />
       <Tab.Screen 
+        name="Decision" 
+        getComponent={() => require('../screens/DecisionScreen').default}
+      />
+      <Tab.Screen 
         name="People" 
         getComponent={() => require('../screens/PeopleScreen').default}
       />
